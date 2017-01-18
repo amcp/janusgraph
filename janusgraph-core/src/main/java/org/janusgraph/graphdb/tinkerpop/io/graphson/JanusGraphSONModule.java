@@ -16,7 +16,6 @@ package org.janusgraph.graphdb.tinkerpop.io.graphson;
 
 import org.janusgraph.core.attribute.Geoshape;
 import org.janusgraph.graphdb.relations.RelationIdentifier;
-import org.apache.tinkerpop.gremlin.structure.io.graphson.GraphSONTokens;
 import org.apache.tinkerpop.shaded.jackson.core.JsonGenerationException;
 import org.apache.tinkerpop.shaded.jackson.core.JsonGenerator;
 import org.apache.tinkerpop.shaded.jackson.core.JsonParser;

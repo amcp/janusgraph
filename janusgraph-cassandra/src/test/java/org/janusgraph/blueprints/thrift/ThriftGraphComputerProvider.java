@@ -16,7 +16,6 @@ package org.janusgraph.blueprints.thrift;
 
 import org.janusgraph.CassandraStorageSetup;
 import org.janusgraph.blueprints.AbstractJanusGraphComputerProvider;
-import org.janusgraph.blueprints.AbstractJanusGraphProvider;
 import org.janusgraph.diskstorage.configuration.ModifiableConfiguration;
 import org.janusgraph.graphdb.olap.computer.FulgoraGraphComputer;
 import org.apache.tinkerpop.gremlin.GraphProvider;

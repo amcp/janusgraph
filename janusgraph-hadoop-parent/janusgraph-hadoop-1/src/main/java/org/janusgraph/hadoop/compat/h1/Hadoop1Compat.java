@@ -14,20 +14,12 @@
 
 package org.janusgraph.hadoop.compat.h1;
 
-import org.janusgraph.core.JanusGraphException;
 import org.janusgraph.diskstorage.keycolumnvalue.scan.ScanMetrics;
 import org.janusgraph.graphdb.configuration.JanusGraphConstants;
 import org.janusgraph.hadoop.config.job.JobClasspathConfigurer;
-import org.janusgraph.hadoop.formats.cassandra.CassandraBinaryInputFormat;
-import org.janusgraph.hadoop.scan.HadoopVertexScanMapper;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.mapreduce.lib.output.NullOutputFormat;
-
 import org.janusgraph.hadoop.compat.HadoopCompat;
-
-import java.io.IOException;
 
 public class Hadoop1Compat implements HadoopCompat {
 
