@@ -2,6 +2,8 @@ package org.janusgraph.graphdb;
 
 import java.util.Objects;
 
+//https://github.com/ddickstein/Java-Library/blob/master/java8/function/TriConsumer.java
+
 @FunctionalInterface
 public interface TriConsumer<T, U, V> {
   public void accept(T t, U u, V v);
