@@ -24,7 +24,6 @@ import org.janusgraph.core.*;
 import org.janusgraph.core.attribute.Cmp;
 import org.janusgraph.core.schema.ConsistencyModifier;
 import org.janusgraph.core.schema.JanusGraphIndex;
-import org.janusgraph.diskstorage.Backend;
 import static org.janusgraph.diskstorage.Backend.*;
 import org.janusgraph.diskstorage.configuration.BasicConfiguration;
 import org.janusgraph.diskstorage.configuration.ModifiableConfiguration;
@@ -52,7 +51,6 @@ import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -209,10 +207,10 @@ public abstract class JanusGraphOperationCountingTest extends JanusGraphBaseTest
         for (int i = 1; i <= 30; i++) {
             metricsPrefix = "op"+i+cache;
             tx = graph.buildTransaction().groupName(metricsPrefix).start();
-            v = getOnlyElement(tx.query().has("uid",1).vertices());
+            v = getOnlyElement((Iterable<JanusGraphVertex>) tx.query().has("uid",1).vertices());
             assertEquals(1,v.<Integer>value("uid").intValue());
-            u = getOnlyElement(v.query().direction(Direction.BOTH).labels("knows").vertices());
-            e = getOnlyElement(u.query().direction(Direction.IN).labels("knows").edges());
+            u = getOnlyElement((Iterable<JanusGraphVertex>) v.query().direction(Direction.BOTH).labels("knows").vertices());
+            e = getOnlyElement((Iterable<JanusGraphEdge>) u.query().direction(Direction.IN).labels("knows").edges());
             assertEquals("juju",u.value("name"));
             assertEquals("edge",e.value("name"));
             tx.commit();
@@ -339,7 +337,7 @@ public abstract class JanusGraphOperationCountingTest extends JanusGraphBaseTest
         resetMetrics();
 
         tx = graph.buildTransaction().groupName(metricsPrefix).start();
-        v = Iterables.getOnlyElement(tx.query().has("uid", Cmp.EQUAL, "v1").vertices());
+        v = Iterables.getOnlyElement((Iterable<JanusGraphVertex>) tx.query().has("uid", Cmp.EQUAL, "v1").vertices());
         assertEquals(25,v.property("age").value());
         tx.commit();
         verifyStoreMetrics(EDGESTORE_NAME, ImmutableMap.of(M_GET_SLICE,1l));
@@ -642,7 +640,7 @@ public abstract class JanusGraphOperationCountingTest extends JanusGraphBaseTest
         long start = System.nanoTime();
         JanusGraphVertex v = getV(graph,vid);
         for (int i=1; i<numV; i++) {
-            v = getOnlyElement(v.query().direction(Direction.OUT).labels("knows").vertices());
+            v = getOnlyElement((Iterable<JanusGraphVertex>) v.query().direction(Direction.OUT).labels("knows").vertices());
         }
         return ((System.nanoTime()-start)/1000000.0);
     }

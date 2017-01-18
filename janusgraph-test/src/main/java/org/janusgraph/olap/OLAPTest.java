@@ -188,7 +188,7 @@ public abstract class OLAPTest extends JanusGraphBaseTest {
         assertNull(getV(tx,v3id));
         v1 = getV(tx, v1id);
         assertNotNull(v1);
-        assertEquals(v3id,v1.query().direction(Direction.IN).labels("knows").vertices().iterator().next().longId());
+        assertEquals(v3id, ((Iterable<JanusGraphVertex>) v1.query().direction(Direction.IN).labels("knows").vertices()).iterator().next().longId());
         tx.commit();
         mgmt.commit();
 
@@ -280,7 +280,8 @@ public abstract class OLAPTest extends JanusGraphBaseTest {
             for (JanusGraphVertex v : gview.query().vertices()) {
                 long degree2 = ((Integer)v.value(DegreeCounter.DEGREE)).longValue();
                 long actualDegree2 = 0;
-                for (JanusGraphVertex w : v.query().direction(Direction.OUT).vertices()) {
+                Iterable<JanusGraphVertex> vertices = v.query().direction(Direction.OUT).vertices();
+                for (JanusGraphVertex w : vertices) {
                     actualDegree2 += Iterables.size(w.query().direction(Direction.OUT).vertices());
                 }
                 assertEquals(actualDegree2,degree2);

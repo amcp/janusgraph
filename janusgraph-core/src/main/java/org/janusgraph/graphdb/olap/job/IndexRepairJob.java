@@ -136,8 +136,9 @@ public class IndexRepairJob extends IndexUpdateJob implements VertexScanJob {
                 EdgeSerializer edgeSerializer = writeTx.getEdgeSerializer();
                 List<Entry> additions = new ArrayList<>();
 
-                for (JanusGraphRelation relation : vertex.query().types(indexRelationTypeName).direction(Direction.OUT).relations()) {
-                    InternalRelation janusgraphRelation = (InternalRelation)relation;
+                Iterable<JanusGraphRelation> relations = vertex.query().types(indexRelationTypeName).direction(Direction.OUT).relations();
+                for (JanusGraphRelation relation : relations) {
+                    InternalRelation janusgraphRelation = (InternalRelation) relation;
                     for (int pos = 0; pos < janusgraphRelation.getArity(); pos++) {
                         if (!wrappedType.isUnidirected(Direction.BOTH) && !wrappedType.isUnidirected(EdgeDirection.fromPosition(pos)))
                             continue; //Directionality is not covered
@@ -166,7 +167,8 @@ public class IndexRepairJob extends IndexUpdateJob implements VertexScanJob {
                         break;
                     case EDGE:
                         elements = Lists.newArrayList();
-                        for (JanusGraphEdge e : addIndexSchemaConstraint(vertex.query().direction(Direction.OUT),indexType).edges()) {
+                        Iterable<JanusGraphEdge> edges = addIndexSchemaConstraint(vertex.query().direction(Direction.OUT),indexType).edges();
+                        for (JanusGraphEdge e : edges) {
                             elements.add(e);
                         }
                         break;

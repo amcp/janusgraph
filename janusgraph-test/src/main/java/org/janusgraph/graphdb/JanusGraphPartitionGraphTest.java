@@ -22,30 +22,22 @@ import com.google.common.collect.*;
 import org.janusgraph.core.*;
 import org.janusgraph.graphdb.database.idassigner.VertexIDAssigner;
 import org.janusgraph.graphdb.database.idassigner.placement.PropertyPlacementStrategy;
-import org.janusgraph.graphdb.internal.InternalVertex;
 import org.janusgraph.graphdb.olap.computer.FulgoraGraphComputer;
-import org.janusgraph.core.schema.VertexLabelMaker;
 import org.janusgraph.diskstorage.configuration.BasicConfiguration;
 import org.janusgraph.diskstorage.configuration.ModifiableConfiguration;
 import org.janusgraph.diskstorage.configuration.WriteConfiguration;
 import org.janusgraph.graphdb.configuration.GraphDatabaseConfiguration;
-import org.janusgraph.graphdb.database.StandardJanusGraph;
 import org.janusgraph.graphdb.database.idassigner.placement.SimpleBulkPlacementStrategy;
 import org.janusgraph.graphdb.idmanagement.IDManager;
-import org.janusgraph.graphdb.transaction.StandardJanusGraphTx;
 import org.janusgraph.olap.OLAPTest;
-import org.janusgraph.testcategory.OrderedKeyStoreTests;
-import org.janusgraph.testcategory.UnorderedKeyStoreTests;
 import org.janusgraph.util.datastructures.AbstractLongListUtil;
 import org.apache.tinkerpop.gremlin.process.computer.ComputerResult;
-import org.apache.tinkerpop.gremlin.process.computer.GraphComputer;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -374,7 +366,8 @@ public abstract class JanusGraphPartitionGraphTest extends JanusGraphBaseTest {
             assertCount(groupDegrees[i],g.query().direction(Direction.OUT).edges());
             assertCount(groupDegrees[i],g.query().direction(Direction.IN).edges());
             assertCount(groupDegrees[i]*2,g.query().edges());
-            for (JanusGraphVertex v : g.query().direction(Direction.IN).labels("member").vertices()) {
+            Iterable<JanusGraphVertex> vertices = g.query().direction(Direction.IN).labels("member").vertices();
+            for (JanusGraphVertex v : vertices) {
                 int pid = getPartitionID(v);
                 partitionIds.add(pid);
                 assertEquals(g, getOnlyElement(v.query().direction(Direction.OUT).labels("member").vertices()));
@@ -476,7 +469,8 @@ public abstract class JanusGraphPartitionGraphTest extends JanusGraphBaseTest {
         for (int i=0;i<groupDegrees.length;i++) {
             JanusGraphVertex g = getOnlyVertex(tx.query().has("groupid","group"+i));
             int partitionId = -1;
-            for (JanusGraphVertex v : g.query().direction(Direction.IN).labels("member").vertices()) {
+            Iterable<JanusGraphVertex> vertices = g.query().direction(Direction.IN).labels("member").vertices();
+            for (JanusGraphVertex v : vertices) {
                 if (partitionId<0) partitionId = getPartitionID(v);
                 assertEquals(partitionId,getPartitionID(v));
                 partitionIds.add(partitionId);

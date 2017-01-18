@@ -22,7 +22,6 @@ import org.janusgraph.graphdb.configuration.GraphDatabaseConfiguration;
 import org.janusgraph.graphdb.database.StandardJanusGraph;
 import org.janusgraph.graphdb.serializer.attributes.*;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -69,7 +68,7 @@ public class SerializerGraphConfiguration {
         tx.commit();
 
         tx = graph.newTransaction();
-        v = tx.query().has("time",5).vertices().iterator().next();
+        v = ((Iterable<JanusGraphVertex>) tx.query().has("time",5).vertices()).iterator().next();
         assertEquals(5,(int)v.value("time"));
         assertEquals(3, Iterators.size(v.properties("any")));
         tx.rollback();

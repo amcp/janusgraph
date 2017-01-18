@@ -174,7 +174,7 @@ public class JanusGraphSchemaVertex extends CacheVertex implements SchemaSource 
     @Override
     public IndexType asIndexType() {
         Preconditions.checkArgument(getDefinition().containsKey(TypeDefinitionCategory.INTERNAL_INDEX),"Schema vertex is not a type vertex: [%s,%s]", longId(), name());
-        if (getDefinition().getValue(TypeDefinitionCategory.INTERNAL_INDEX)) {
+        if ((Boolean) getDefinition().getValue(TypeDefinitionCategory.INTERNAL_INDEX)) {
             return new CompositeIndexTypeWrapper(this);
         } else {
             return new MixedIndexTypeWrapper(this);
