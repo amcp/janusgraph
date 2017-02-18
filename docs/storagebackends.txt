@@ -18,4 +18,6 @@ include::hbase.txt[]
 
 include::bdb.txt[]
 
+include::tupl.txt[]
+
 include::inmemorybackend.txt[]

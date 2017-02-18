@@ -17,6 +17,7 @@ env:
   matrix:
     - MODULE='berkeleyje'
     - MODULE='cassandra'
+    - MODULE='tupl'
     - MODULE='es' ARGS='-DthreadCount=1'
     - MODULE='hadoop-parent/janusgraph-hadoop-2'
     - MODULE='hbase-parent/janusgraph-hbase-098'
