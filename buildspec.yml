@@ -1,0 +1,19 @@
+version: 0.1
+
+phases:
+  pre_build:
+    commands:
+      - echo "Nothing to do in the pre_build phase..."
+  build:
+    commands:
+      - echo Build started on `date`
+      - env
+      - mvn install -DskipTests=true -B -pl janusgraph-$MODULE -am
+      - mvn verify -pl janusgraph-$MODULE $ARGS
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - janusgraph-${MODULE}/target
+  discard-paths: yes
