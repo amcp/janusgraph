@@ -1,17 +1,15 @@
 version: 0.1
 
 phases:
-  pre_build:
-    commands:
-      - echo "Nothing to do in the pre_build phase..."
   build:
     commands:
-      - mvn install -DskipTests=true -B -pl janusgraph-${MODULE} -am -Dmaven.compiler.showWarnings=false -Dmaven.javadoc.skip=true
+      - echo Build started on `date`
+      - mvn install -DskipTests=true -B -pl janusgraph-$MODULE -am -Dmaven.compiler.showWarnings=false -Dmaven.javadoc.skip=true
       - mvn verify -pl janusgraph-$MODULE $ARGS
   post_build:
     commands:
       - echo Build completed on `date`
 artifacts:
+  base-directory: janusgraph-$MODULE
   files:
-    - janusgraph-${MODULE}/target
-  discard-paths: yes
+    - target/*
