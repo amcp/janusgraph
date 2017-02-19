@@ -13,4 +13,4 @@ phases:
 artifacts:
   base-directory: module
   files:
-    - target/*
+    - target/**/*
