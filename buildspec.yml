@@ -9,7 +9,8 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - ln -s ./janusgraph-$MODULE ./module 
 artifacts:
-  base-directory: janusgraph-$MODULE
+  base-directory: module
   files:
     - target/*
