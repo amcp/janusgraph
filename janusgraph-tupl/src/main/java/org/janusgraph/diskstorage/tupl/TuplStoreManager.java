@@ -309,10 +309,14 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
         }
     }
 
+    TuplKeyValueStore unregisterStore(TuplKeyValueStore kvs) {
+        return stores.remove(kvs.getName());
+    }
+
     @Override
     public void clearStorage() throws BackendException {
-        for(String storeName : stores.keySet()) {
-            stores.remove(storeName).drop();
+        for(TuplKeyValueStore kvs : stores.values()) {
+            unregisterStore(kvs).drop();
         }
     }
 
