@@ -6,6 +6,7 @@ phases:
       - echo Build started on `date`
       - mvn install -DskipTests=true -B -pl janusgraph-$MODULE -am -Dmaven.compiler.showWarnings=false -Dmaven.javadoc.skip=true
       - mvn verify -pl janusgraph-$MODULE $ARGS
+      - mvn surefire-report:report -pl janusgraph-$MODULE
   post_build:
     commands:
       - echo Build completed on `date`
