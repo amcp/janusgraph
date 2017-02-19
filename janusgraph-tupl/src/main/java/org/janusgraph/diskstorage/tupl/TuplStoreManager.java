@@ -297,7 +297,6 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
 
     @Override
     public void close() throws BackendException {
-        System.out.println("closing " + prefixFile.toString());
         try {
             stores.clear();
             database.shutdown();
