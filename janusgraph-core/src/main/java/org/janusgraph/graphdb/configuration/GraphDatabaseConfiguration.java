@@ -49,6 +49,7 @@ import org.janusgraph.util.system.NetworkUtil;
 
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import info.ganglia.gmetric4j.gmetric.GMetric.UDPAddressingMode;
+import lombok.EqualsAndHashCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,6 +91,7 @@ import org.janusgraph.util.stats.MetricManager;
  *
  * @author Matthias Br&ouml;cheler (me@matthiasb.com);
  */
+@EqualsAndHashCode
 public class GraphDatabaseConfiguration {
 
     private static final Logger log =

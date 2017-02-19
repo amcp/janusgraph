@@ -130,7 +130,7 @@ public class TuplKeyValueStore implements OrderedKeyValueStore {
                 throw new PermanentLockingException(String.format("Expected value did not match actual for key:%s", key));
             }
         } catch (IOException e) {
-            throw new PermanentBackendException("unable to close store named "+ name, e);
+            throw new PermanentBackendException(String.format("unable to insert key=%s in %s", key, name), e);
         }
     }
 
@@ -189,6 +189,14 @@ public class TuplKeyValueStore implements OrderedKeyValueStore {
             };
         } catch (Exception e) {
             throw new PermanentBackendException(e);
+        }
+    }
+    
+    void drop() throws BackendException {
+        try {
+            dbindex.drop();
+        } catch(IOException e) {
+            throw new PermanentBackendException("Unable to drop index " + name, e);
         }
     }
 

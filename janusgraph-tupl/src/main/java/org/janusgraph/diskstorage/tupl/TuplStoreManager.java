@@ -200,7 +200,7 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
     private final Map<String, TuplKeyValueStore> stores;
     private final String prefix = "graph";
     private final StoreFeatures features;
-    private final DatabaseConfig config;
+    private final DatabaseConfig tuplConfig;
     //clearStorage() replaces the initial db from ctor with a new instance
     private Database database;
     private final File directory;
@@ -243,7 +243,7 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
         features = new TuplStoreFeatures(transactional, persistent);
         stores = new HashMap<>();
 
-        config = new DatabaseConfig().baseFilePath(persistent ? prefixFile.getAbsolutePath() : null)
+        tuplConfig = new DatabaseConfig().baseFilePath(persistent ? prefixFile.getAbsolutePath() : null)
                                      .mapDataFiles(mapDataFiles)
                                      .minCacheSize(minCacheSize)
                                      .maxCacheSize(maxCacheSize)
@@ -259,7 +259,7 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
                                      .checkpointSizeThreshold(checkpointSizeThreshold);
 
         try {
-            database = Database.open(config);
+            database = Database.open(tuplConfig);
         } catch(IOException e) {
             throw new PermanentBackendException("unable to open the database", e);
         }
@@ -295,15 +295,11 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
         return new TuplStoreTransaction(config, txn, database);
     }
 
-    public void unregisterStore(TuplKeyValueStore db) throws PermanentBackendException {
-        if (!stores.containsKey(db.getName())) {
-            return;
-        }
-        stores.remove(db.getName());
-    }
-
+    @Override
     public void close() throws BackendException {
+        System.out.println("closing " + prefixFile.toString());
         try {
+            stores.clear();
             database.shutdown();
             if(null != lockFile) {
                 lockFile.delete();
@@ -313,15 +309,14 @@ public class TuplStoreManager extends AbstractStoreManager implements OrderedKey
         }
     }
 
+    @Override
     public void clearStorage() throws BackendException {
-        try {
-            close();
-            database = Database.destroy(config);
-        } catch (IOException e) {
-            throw new PermanentBackendException("unable to clear storage", e);
+        for(String storeName : stores.keySet()) {
+            stores.remove(storeName).drop();
         }
     }
 
+    @Override
     public StoreFeatures getFeatures() {
         return features;
     }

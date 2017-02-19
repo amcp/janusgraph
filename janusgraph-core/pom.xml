@@ -99,6 +99,12 @@
            <groupId>com.google.code.findbugs</groupId>
            <artifactId>jsr305</artifactId>
        </dependency>
+       <dependency>
+           <groupId>org.projectlombok</groupId>
+           <artifactId>lombok</artifactId>
+           <version>1.16.14</version>
+           <scope>provided</scope>
+       </dependency>
     </dependencies>
     <build>
         <directory>${basedir}/target</directory>
