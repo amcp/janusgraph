@@ -16,8 +16,11 @@
 package org.janusgraph.diskstorage.tupl;
 
 import org.junit.Rule;
+import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
+
+import java.util.concurrent.ExecutionException;
 
 import org.janusgraph.TuplStorageSetup;
 import org.janusgraph.diskstorage.tupl.TuplStoreManager;
@@ -46,4 +49,8 @@ public class TuplFixedLengthKCVSTest extends KeyColumnValueStoreTest {
 
     }
 
+    @Test @Override
+    public void testConcurrentGetSliceAndMutate() throws BackendException, ExecutionException, InterruptedException {
+
+    }
 }

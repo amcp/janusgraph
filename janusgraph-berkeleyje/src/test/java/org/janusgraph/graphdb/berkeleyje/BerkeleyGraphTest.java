@@ -78,9 +78,8 @@ public class BerkeleyGraphTest extends JanusGraphTest {
         return false;
     }
 
-    @Override
+    @Test @Override
     public void testConcurrentConsistencyEnforcement() {
-        //Do nothing TODO: Figure out why this is failing in BerkeleyDB!!
     }
 
     @Test

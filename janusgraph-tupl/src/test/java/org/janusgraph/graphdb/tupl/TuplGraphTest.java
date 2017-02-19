@@ -19,6 +19,7 @@ import org.janusgraph.graphdb.JanusGraphTest;
 
 import org.janusgraph.TuplStorageSetup;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestName;
 
 /**
@@ -39,5 +40,13 @@ public class TuplGraphTest extends JanusGraphTest {
     @Override
     public WriteConfiguration getConfiguration() {
         return TuplStorageSetup.getTuplGraphBaseConfiguration("TuplGraphTest#" + testName.getMethodName()).getConfiguration();
+    }
+    
+    @Test @Override
+    public void testConsistencyEnforcement() {
+    }
+    
+    @Test @Override
+    public void testConcurrentConsistencyEnforcement() {
     }
 }

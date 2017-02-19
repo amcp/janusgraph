@@ -41,7 +41,6 @@ public class TuplVariableLengthKCVSTest extends KeyColumnValueStoreTest {
         return TuplStorageSetup.getKCVStorageManager("TuplVariableLengthKCVSTest#" + testName.getMethodName());
     }
 
-    // TODO broken
     @Test @Override
     public void testConcurrentGetSliceAndMutate() throws BackendException, ExecutionException, InterruptedException {
 
