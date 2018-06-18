@@ -42,8 +42,10 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.janusgraph.diskstorage.configuration.ConfigOption.disallowEmpty;
+import static org.janusgraph.graphdb.configuration.GraphDatabaseConfiguration.IN_MEMORY;
 
 @PreInitializeConfigOptions
 public class BerkeleyJEStoreManager extends LocalStoreManager implements OrderedKeyValueStoreManager {
@@ -76,7 +78,7 @@ public class BerkeleyJEStoreManager extends LocalStoreManager implements Ordered
 
     public BerkeleyJEStoreManager(Configuration configuration) throws BackendException {
         super(configuration);
-        stores = new HashMap<String, BerkeleyJEKeyValueStore>();
+        stores = new HashMap<>();
 
         int cachePercentage = configuration.get(JVM_CACHE);
         initialize(cachePercentage);
@@ -108,7 +110,17 @@ public class BerkeleyJEStoreManager extends LocalStoreManager implements Ordered
 
     private void initialize(int cachePercent) throws BackendException {
         try {
-            EnvironmentConfig envConfig = new EnvironmentConfig();
+
+            final EnvironmentConfig envConfig;
+
+            if (storageConfig.get(IN_MEMORY)) {
+                Properties properties = new Properties();
+                properties.put(EnvironmentConfig.LOG_MEM_ONLY, "true");
+                envConfig = new EnvironmentConfig(properties);
+            } else {
+                envConfig = new EnvironmentConfig();
+            }
+
             envConfig.setAllowCreate(true);
             envConfig.setTransactional(transactional);
             envConfig.setCachePercent(cachePercent);

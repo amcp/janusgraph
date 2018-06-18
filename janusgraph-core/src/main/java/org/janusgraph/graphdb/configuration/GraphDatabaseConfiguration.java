@@ -409,6 +409,14 @@ public class GraphDatabaseConfiguration {
     public static final ConfigNamespace STORAGE_NS = new ConfigNamespace(ROOT_NS,"storage","Configuration options for the storage backend.  Some options are applicable only for certain backends.");
 
     /**
+     * Allows storage backends that use the filesystem (BerkeleyJE) to run in memory without writing storage files.
+     */
+    public static final ConfigOption<Boolean> IN_MEMORY = new ConfigOption<>(STORAGE_NS,"in-memory",
+        "Whether or not to run the selected storage backend in memory, without persisting to disk. " +
+        "Currently only implemented for BerkeleyJE. Defaults to false.",
+        ConfigOption.Type.LOCAL, Boolean.class, false);
+
+    /**
      * Storage root directory for those storage backends that require local storage
      */
     public static final ConfigOption<String> STORAGE_ROOT = new ConfigOption<String>(STORAGE_NS,"root",
